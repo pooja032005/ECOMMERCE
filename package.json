@@ -1,0 +1,20 @@
+{
+  "name": "fsf-ex15",
+  "version": "1.0.0",
+  "description": "Simple shopping checkout app using Express and EJS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.3.0",
+    "dotenv": "^16.6.1",
+    "ejs": "^3.1.10",
+    "express": "^4.22.2",
+    "razorpay": "^2.9.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

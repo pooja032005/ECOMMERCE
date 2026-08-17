@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>StyleCart</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        STYLECART
+    </div>
+
+    <nav>
+
+        <a href="/">Home</a>
+        <a href="/">Shop</a>
+        <a href="/cart">Cart 🛒</a>
+
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div>
+
+        <p class="small-title">
+            NEW COLLECTION 2026
+        </p>
+
+        <h1>
+            Style That<br>
+            Speaks For You.
+        </h1>
+
+        <p>
+            Discover clothing, footwear and accessories
+            designed for your everyday style.
+        </p>
+
+        <a href="#products" class="shop-btn">
+            SHOP NOW
+        </a>
+
+    </div>
+
+</section>
+
+
+<section id="products" class="products-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p>OUR COLLECTION</p>
+
+            <h2>Trending Products</h2>
+
+        </div>
+
+        <input
+            type="text"
+            placeholder="Search products..."
+        >
+
+    </div>
+
+
+    <div class="product-grid">
+
+        <% products.forEach(product => { %>
+
+            <div class="product-card">
+
+                <div class="product-image">
+
+                    <img
+                        src="<%= product.image %>"
+                        alt="<%= product.name %>"
+                    >
+
+                </div>
+
+                <div class="product-info">
+
+                    <span>
+                        <%= product.category %>
+                    </span>
+
+                    <h3>
+                        <%= product.name %>
+                    </h3>
+
+                    <div class="price-row">
+
+                        <strong>
+                            ₹<%= product.price %>
+                        </strong>
+
+                        <a
+                            href="/product/<%= product.id %>"
+                            class="view-btn"
+                        >
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <h3>STYLECART</h3>
+
+    <p>
+        Fashion made simple.
+    </p>
+
+</footer>
+
+</body>
+
+</html>

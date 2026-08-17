@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title><%= product.name %> | StyleCart</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        STYLECART
+    </div>
+
+    <nav>
+
+        <a href="/">Home</a>
+        <a href="/cart">Cart 🛒</a>
+
+    </nav>
+
+</header>
+
+
+<div class="product-detail">
+
+    <div class="detail-image">
+
+        <img
+            src="<%= product.image %>"
+            alt="<%= product.name %>"
+        >
+
+    </div>
+
+
+    <div class="detail-content">
+
+        <p class="category">
+            <%= product.category %>
+        </p>
+
+        <h1>
+            <%= product.name %>
+        </h1>
+
+        <h2>
+            ₹<%= product.price %>
+        </h2>
+
+        <p>
+            <%= product.description %>
+        </p>
+
+
+        <div class="size-title">
+            Select Size
+        </div>
+
+        <div class="sizes">
+
+            <button>S</button>
+            <button>M</button>
+            <button>L</button>
+            <button>XL</button>
+
+        </div>
+
+
+        <a
+            href="/checkout?productId=<%= product.id %>"
+            class="buy-btn"
+        >
+            BUY NOW
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

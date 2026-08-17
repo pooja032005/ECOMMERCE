@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Checkout | StyleCart</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        STYLECART
+    </div>
+
+</header>
+
+
+<div class="checkout-container">
+
+
+    <div class="checkout-form">
+
+        <h1>Checkout</h1>
+
+        <h3>Delivery Information</h3>
+
+        <input
+            type="text"
+            id="customerName"
+            placeholder="Full Name"
+        >
+
+        <input
+            type="email"
+            id="customerEmail"
+            placeholder="Email Address"
+        >
+
+        <input
+            type="text"
+            id="customerPhone"
+            placeholder="Phone Number"
+        >
+
+        <textarea
+            id="customerAddress"
+            placeholder="Delivery Address"
+        ></textarea>
+
+    </div>
+
+
+    <div class="order-box">
+
+        <h2>Order Summary</h2>
+
+        <div class="checkout-product">
+
+            <img
+                src="<%= product.image %>"
+            >
+
+            <div>
+
+                <h3>
+                    <%= product.name %>
+                </h3>
+
+                <p>
+                    <%= product.category %>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="checkout-total">
+
+            <span>Total</span>
+
+            <strong>
+                ₹<%= product.price %>
+            </strong>
+
+        </div>
+
+
+        <button
+            id="payButton"
+            class="payment-btn"
+        >
+            Pay ₹<%= product.price %>
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<script>
+
+document
+.getElementById("payButton")
+.addEventListener("click", async function () {
+
+
+    const name =
+        document.getElementById("customerName").value;
+
+    const email =
+        document.getElementById("customerEmail").value;
+
+    const phone =
+        document.getElementById("customerPhone").value;
+
+
+    if (!name || !email || !phone) {
+
+        alert("Please fill all required details.");
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const response = await fetch(
+            "/create-order",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    productId: "<%= product.id %>"
+
+                })
+
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!data.success) {
+
+            alert(data.message);
+
+            return;
+
+        }
+
+
+        const options = {
+
+            key: "<%= razorpayKey %>",
+
+            amount: data.order.amount,
+
+            currency: "INR",
+
+            name: "StyleCart",
+
+            description: data.product.name,
+
+            order_id: data.order.id,
+
+
+            prefill: {
+
+                name: name,
+
+                email: email,
+
+                contact: phone
+
+            },
+
+
+            theme: {
+
+                color: "#111827"
+
+            },
+
+
+            handler: async function (payment) {
+
+
+                const verifyResponse =
+                    await fetch(
+                        "/verify-payment",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                razorpay_order_id:
+                                    payment.razorpay_order_id,
+
+                                razorpay_payment_id:
+                                    payment.razorpay_payment_id,
+
+                                razorpay_signature:
+                                    payment.razorpay_signature
+
+                            })
+
+                        }
+                    );
+
+
+                const result =
+                    await verifyResponse.json();
+
+
+                if (result.success) {
+
+                    window.location.href =
+                        "/success";
+
+                } else {
+
+                    alert(
+                        "Payment verification failed."
+                    );
+
+                }
+
+            }
+
+        };
+
+
+        const razorpay =
+            new Razorpay(options);
+
+
+        razorpay.open();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong. Please try again."
+        );
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
